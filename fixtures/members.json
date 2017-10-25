@@ -1,0 +1,11 @@
+{ "name" : "king kyrgios", "donations" : 137, "trophies" : 2706, "last_donation" : 137, "_id" : { "$oid" : "59f0ce46c94167610e7f3d49" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 1000, "__v" : 0 }
+{ "name" : "galiani09", "donations" : 53, "trophies" : 2663, "last_donation" : 53, "_id" : { "$oid" : "59f0ce46c94167610e7f3d4a" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 960, "__v" : 0 }
+{ "name" : "lambor", "donations" : 54, "trophies" : 2666, "last_donation" : 54, "_id" : { "$oid" : "59f0ce46c94167610e7f3d4b" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 802, "__v" : 0 }
+{ "name" : "*✴Maö✴*", "donations" : 107, "trophies" : 2295, "last_donation" : 107, "_id" : { "$oid" : "59f0ce46c94167610e7f3d4c" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 922, "__v" : 0 }
+{ "name" : "Mcat", "donations" : 266, "trophies" : 2584, "last_donation" : 266, "_id" : { "$oid" : "59f0ce46c94167610e7f3d4d" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 1216, "__v" : 0 }
+{ "name" : "Golaf", "donations" : 121, "trophies" : 2333, "last_donation" : 121, "_id" : { "$oid" : "59f0ce46c94167610e7f3d4e" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 1128, "__v" : 0 }
+{ "name" : "vicorico", "donations" : 174, "trophies" : 2282, "last_donation" : 174, "_id" : { "$oid" : "59f0ce46c94167610e7f3d4f" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 866, "__v" : 0 }
+{ "name" : "jess", "donations" : 173, "trophies" : 2246, "last_donation" : 173, "_id" : { "$oid" : "59f0ce46c94167610e7f3d50" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 1085, "__v" : 0 }
+{ "name" : "John Smith", "donations" : 182, "trophies" : 2018, "last_donation" : 182, "_id" : { "$oid" : "59f0ce46c94167610e7f3d51" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 1042, "__v" : 0 }
+{ "name" : "ame", "donations" : 80, "trophies" : 1899, "last_donation" : 80, "_id" : { "$oid" : "59f0ce46c94167610e7f3d52" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 862, "__v" : 0 }
+{ "name" : "dont_hurt_me", "donations" : 24, "trophies" : 1144, "last_donation" : 24, "_id" : { "$oid" : "59f0ce46c94167610e7f3d53" }, "n_clan_chests" : 1, "active" : true, "last_elo" : 1000, "elo" : 1165, "__v" : 0 }
