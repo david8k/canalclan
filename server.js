@@ -7,7 +7,7 @@ const path = require('path');
 const controller = require('./controller');
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const CLAN_ID = '8YY0JYG8';
 const API_ENDPOINT = `http://api.cr-api.com/clan/${CLAN_ID}`;
 
