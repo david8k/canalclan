@@ -83,7 +83,7 @@ const getFactor = clan_chests => {
   return 10;
 };
 
-schedule.scheduleJob('10 9 * * 1 *', () => {
+schedule.scheduleJob('10 9 * * 1', () => {
   fetch(API_ENDPOINT)
     .then(res => res.json())
     .then(async({ members }) => {
