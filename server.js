@@ -25,8 +25,18 @@ const vueOptions = {
 const expressVueMiddleware = expressVue.init(vueOptions);
 app.use(expressVueMiddleware);
 
-app.get('/', (req, res) => {
-  const data_response = {};
+app.get('/', async(req, res) => {
+  const members = await controller.getMembers();
+  const data_response = {
+    members: members.map(member => {
+      const elo_change = member.elo - member.last_elo;
+      if(elo_change < 0)
+        member.elo_change = elo_change.toString();
+      else
+        member.elo_change = '+'+(elo_change.toString());
+      return member;
+    }).sort((a,b) => b.elo - a.elo),
+  };
   res.renderVue('main', data_response, { head: { title: 'ELO Canalclan' } } );
 })
 
@@ -62,7 +72,7 @@ schedule.scheduleJob('00 26 * * * *', async() => {
     .then(async({ members }) => {
       await updateMembers(members);
     });
-  console.log('done!');
+  console.log('members were updated!');
 })
 
 const getFactor = clan_chests => {
@@ -78,7 +88,6 @@ schedule.scheduleJob('50 * * * * *', () => {
     .then(res => res.json())
     .then(async({ members }) => {
       await updateMembers(members);
-      // YOU MUST GUARANTEE THAT ALL MEMBERS SHOWN ARE CURRENTLY ON DB
       const active_members = await Promise.all(members.map(async(member) => {
         const db_member = await controller.getMember(member.name);
         return {
@@ -91,23 +100,33 @@ schedule.scheduleJob('50 * * * * *', () => {
         };
       }))
       active_members.forEach(async(member, i) => {
-        let expected_values_sum = 0;
-        let real_values_sum = 0;
-        active_members.forEach((other_member, j) => {
-          if(i === j) return;
+        const elo_values = active_members.reduce((acc, other_member, j) => {
+          if(i === j) return acc;
           const ra = member.elo;
           const rb = other_member.elo;
           const expected = 1 / (1+(Math.pow(10, (rb-ra)/400)));
-          if(member.clan_chest_crowns > other_member.clan_chest_crowns) real_values_sum += 1;
-          if(member.clan_chest_crowns === other_member.clan_chest_crowns) real_values_sum += 0.5;
-          expected_values_sum += expected;
-        })
-        const final_value = real_values_sum - expected_values_sum;
-        let factor = member.factor;
-        if(final_value < 0) factor -= member.down_factor;
-        else factor += member.up_factor;
-        const new_elo = member.elo + (factor * final_value);
-        await controller.updateElo(member.name, parseInt(new_elo));
+          if(member.clan_chest_crowns >= other_member.clan_chest_crowns){
+            return {
+              sum_received_values: acc.sum_received_values + 
+                (member.clan_chest_crowns === other_member.clan_chest_crowns ? 0.5 : 1),
+              sum_expected_values: acc.sum_expected_values + expected,
+            }
+          }
+          return {
+            sum_received_values: acc.sum_received_values,
+            sum_expected_values: acc.sum_expected_values + expected,
+          };
+        }, { sum_expected_values: 0, sum_received_values: 0 });
+        const final_value = elo_values.sum_received_values - elo_values.sum_expected_values;
+        const factor = final_value < 0 ?
+          member.factor - member.down_factor :
+          member.factor + member.up_factor;
+        await controller
+          .updateElo(
+            member.name,
+            parseInt(member.elo + (factor * final_value))
+          );
       })
+      console.log('elo was assigned');
     })
 })
