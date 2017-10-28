@@ -1,0 +1,28 @@
+{
+  "name": "canalclan",
+  "version": "1.0.0",
+  "description": "",
+  "main": "controller.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "express-vue": "^4.0.13",
+    "isomorphic-fetch": "^2.2.1",
+    "mongoose": "^4.12.4",
+    "node-schedule": "^1.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/david8k/canalclan.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/david8k/canalclan/issues"
+  },
+  "homepage": "https://github.com/david8k/canalclan#readme"
+}
