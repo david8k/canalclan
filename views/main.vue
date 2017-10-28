@@ -1,5 +1,6 @@
 <template> 
   <div>
+    <h1> Canalclan ELO </h1>
     <table border="1">
       <thead>
         <td>Jugador</td>
