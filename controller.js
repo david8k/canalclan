@@ -14,6 +14,7 @@ module.exports.createMember = (name, trophies, donations) => {
     donations,
     trophies,
     last_donation: donations,
+    created_at: Date.now(),
   })).save();
 };
 
@@ -50,7 +51,7 @@ module.exports.increaseDonations = (name, donations) =>
 
 module.exports.updateTrophies = (name, trophies) => {
   Member.update(
-    { $name },
+    { name },
     { $set: { trophies } }
   )
 };

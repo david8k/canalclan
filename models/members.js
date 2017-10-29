@@ -9,6 +9,7 @@ const membersSchema = new mongoose.Schema({
   last_donation: { type: Number },
   trophies: { type: Number },
   n_clan_chests: { type: Number, default: 0 },
+  created_at: { type: Number },
 });
 
 module.exports = mongoose.model('Members', membersSchema);

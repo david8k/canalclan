@@ -34,6 +34,7 @@ app.get('/', async(req, res) => {
         member.elo_change = elo_change.toString();
       else
         member.elo_change = '+'+(elo_change.toString());
+      member.is_new = isNew(member);
       return member;
     }).sort((a,b) => b.elo - a.elo),
   };
@@ -50,6 +51,7 @@ const updateMembers = async(current_members) => {
     if(db_member){
       const new_donations = member.donations - db_member.last_donation;
       await controller.increaseDonations(db_member.name, new_donations);
+      await controller.updateTrophies(db_member.name, member.trophies);
     }
     else{
       await controller.createMember(member.name, member.trophies, member.donations)
@@ -66,7 +68,7 @@ const updateMembers = async(current_members) => {
   })
 };
 
-schedule.scheduleJob('00 26 * * * *', async() => {
+schedule.scheduleJob('0 0 * * * *', async() => {
   fetch(API_ENDPOINT)
     .then(res => res.json())
     .then(async({ members }) => {
@@ -83,14 +85,24 @@ const getFactor = clan_chests => {
   return 10;
 };
 
-schedule.scheduleJob('10 9 * * 1', () => {
+const isNew = member => {
+  if(!member.created_at) return false; // DA PARCHE
+  const friday_8am = new Date(
+    (new Date().setHours(8,0,0))-
+    (24*60*60*1000*Math.abs((new Date().getDay()) - 5))
+  );
+  return member.created_at >= friday_8am.getTime();
+};
+
+schedule.scheduleJob('10 8 * * 1', () => {
   fetch(API_ENDPOINT)
     .then(res => res.json())
     .then(async({ members }) => {
       await updateMembers(members);
-      const active_members = await Promise.all(members.map(async(member) => {
+      const active_members = (await Promise.all(members.map(async(member) => {
         const db_member = await controller.getMember(member.name);
         return {
+          is_new: isNew(db_member),
           name: member.name,
           clan_chest_crowns: member.clanChestCrowns,
           elo: db_member.elo,
@@ -98,10 +110,11 @@ schedule.scheduleJob('10 9 * * 1', () => {
           up_factor: Math.min(5, UP_CONSTANT * member.trophies / 2000),
           down_factor: Math.min(5, DOWN_CONSTANT * (db_member.donations / 4000 + member.donations / 250))
         };
-      }))
+      }))).filter(member => !member.is_new);
       active_members.forEach(async(member, i) => {
+        if(isNew(member)) return;
         const elo_values = active_members.reduce((acc, other_member, j) => {
-          if(i === j) return acc;
+          if(i === j || isNew(other_member)) return acc;
           const ra = member.elo;
           const rb = other_member.elo;
           const expected = 1 / (1+(Math.pow(10, (rb-ra)/400)));
