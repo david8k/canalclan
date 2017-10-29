@@ -49,9 +49,8 @@ module.exports.increaseDonations = (name, donations) =>
     }
   )
 
-module.exports.updateTrophies = (name, trophies) => {
+module.exports.updateTrophies = (name, trophies) =>
   Member.update(
     { name },
     { $set: { trophies } }
-  )
-};
+  );
