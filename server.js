@@ -88,9 +88,11 @@ const getFactor = clan_chests => {
 const isNew = member => {
   if(!member.created_at) return false; // DA PARCHE
   const now = new Date();
+  const day = (now.getDay()+6) % 7;
+  if(day < 4) return false;
   const friday_8am = new Date(
     (new Date().setHours(8,0,0))-
-    (24*60*60*1000*Math.abs(((now.getDay()+6)%7) - 5))
+    (24*60*60*1000*Math.abs(((now.getDay()+6)%7) - 4))
   );
   return member.created_at >= friday_8am.getTime();
 };

@@ -15,7 +15,7 @@
         <td>{{member.trophies}}</td>
         <td>{{member.donations}}</td>
         <td>{{member.last_donation}}</td>
-        <td>{{member.is_new ? 'YES':'NO' }}</td>
+        <td>{{member.is_new ? 'SI':'NO' }}</td>
         <td>{{member.elo}} {{ member.elo_change }}</td>
     </table>
   </div>
