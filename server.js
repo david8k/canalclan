@@ -89,15 +89,21 @@ const isNew = member => {
   if(!member.created_at) return false; // DA PARCHE
   const now = new Date();
   const day = (now.getDay()+6) % 7;
-  if(day < 4) return false;
+  if(day < 4){
+    const friday_8am = new Date(
+      (new Date().setHours(8,0,0))-
+      (24*60*60*1000*Math.abs(day + 3))
+    );
+    return member.created_at >= friday_8am.getTime();
+  }
   const friday_8am = new Date(
     (new Date().setHours(8,0,0))-
-    (24*60*60*1000*Math.abs(((now.getDay()+6)%7) - 4))
+    (24*60*60*1000*Math.abs(day - 4))
   );
   return member.created_at >= friday_8am.getTime();
 };
 
-schedule.scheduleJob('20 6 * * * *', () => {
+schedule.scheduleJob('10 8 * * 1', () => {
   fetch(API_ENDPOINT)
     .then(res => res.json())
     .then(async({ members }) => {
