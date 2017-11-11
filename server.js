@@ -60,12 +60,12 @@ const updateMembers = async(current_members) => {
   }, new Set);
   
   const db_members = await controller.getMembers();
-  return db_members.map(db_member => {
+  return Promise.all(db_members.map(db_member => {
     if(!active_members.has(db_member.name)){
       return controller.fireMember(db_member.name);
     }
     return Promise.resolve(null);
-  })
+  }))
 };
 
 schedule.scheduleJob('0 0 * * * *', async() => {
